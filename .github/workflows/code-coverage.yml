@@ -27,7 +27,18 @@ jobs:
         uses: madrapps/jacoco-report@v1.6.1
         with:
           paths: |
-            ${{ github.workspace }}/target/site/jacoco/**/*.xml
+            ${{ github.workspace }}/target/site/jacoco/jacoco.xml,
+            ${{ github.workspace }}/target/site/jacoco/index.html
           token: ${{ secrets.GH_TOKEN }}
-          min-coverage-overall: 40
+          min-coverage-overall: 80
           min-coverage-changed-files: 60
+          title: '# Coverage Report'
+          pass-emoji: ':white_check_mark:'
+          fail-emoji: ':x:'
+
+      - name: Fail PR if overall coverage is less than 80%
+        if: ${{ steps.jacoco.outputs.coverage-overall < 80.0 }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setFailed('Overall coverage is less than 80%!')
