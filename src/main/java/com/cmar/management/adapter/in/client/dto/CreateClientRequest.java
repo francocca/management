@@ -1,9 +1,9 @@
 package com.cmar.management.adapter.in.client.dto;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
-@Builder
+@Setter
 @Getter
 public class CreateClientRequest {
     private String name;

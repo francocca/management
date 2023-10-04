@@ -1,0 +1,54 @@
+name: Code Coverage
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+
+      - name: Build and Test
+        run: |
+          mvn clean verify
+
+      - name: Upload Code Coverage Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage
+          path: target/site/jacoco
+
+  validate-coverage:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Download Code Coverage Report
+        uses: actions/download-artifact@v2
+        with:
+          name: code-coverage
+      - name: Check Code Coverage
+        run: |
+          threshold=80
+
+          coverage=$(cat target/site/jacoco/index.html | grep "Overall coverage" | sed -E 's/.<td class="ctr2">([0-9]+)%<./\1/')
+
+          if [ "$coverage" -lt "$threshold" ]; then
+            echo "Code coverage is below the threshold ($coverage% < $threshold%)."
+            exit 1
+          else
+            echo "Code coverage is acceptable ($coverage% >= $threshold%)."
+          fi
