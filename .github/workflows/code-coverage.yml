@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: code-coverage
-          path: target/site/jacoco
+          path: /home/runner/work/management/management/target/site/jacoco
 
   validate-coverage:
     runs-on: ubuntu-latest
@@ -45,7 +45,7 @@ jobs:
         run: |
           threshold=80
 
-          coverage=$(cat target/site/jacoco/index.html | grep "Overall coverage" | sed -E 's/.<td class="ctr2">([0-9]+)%<./\1/')
+          coverage=$(cat /home/runner/work/management/management/target/site/jacoco/index.html | grep "Overall coverage" | sed -E 's/.<td class="ctr2">([0-9]+)%<./\1/')
 
           if [ "$coverage" -lt "$threshold" ]; then
             echo "Code coverage is below the threshold ($coverage% < $threshold%)."
