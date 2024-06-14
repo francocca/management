@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: code-coverage
-          path: /home/runner/work/management/management/target/site/jacoco
+          path: /home/runner/work/management/management/code-coverage/target/site/jacoco
 
   validate-coverage:
     runs-on: ubuntu-latest
