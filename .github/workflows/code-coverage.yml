@@ -43,9 +43,9 @@ jobs:
 
       - name: Get the Coverage info
         run: |
-          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Total coverage ${{ steps.jacoco.outputs.coverage }}"
           echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
 
       - name: Check coverage threshold
-        if: steps.jacoco.outputs.coverage < 80
+        if: steps.jacoco.outputs.coverage < 0.8
         run: exit 1
