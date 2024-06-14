@@ -20,7 +20,7 @@ public class ClientAdapter {
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateClientResponse> create(@RequestBody CreateClientRequest clientRequest) {
-        System.out.println(clientRequest);
+        System.out.println("CR : " + clientRequest);
         return createClientUseCase.execute(clientRequest);
     }
 
